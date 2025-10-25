@@ -8,22 +8,30 @@
 import SwiftUI
 
 struct BookListItem: View {
-    let book:Book
+    let book: Book
+    
     var body: some View {
-        HStack{
-            Image(book.image ?? "")
+        HStack(spacing: 15) {
+            Image(book.image)
                 .resizable()
-                .frame(width:50, height:70)
-            VStack(alignment:.leading){
+                .scaledToFill()
+                .frame(width: 50, height: 70)
+                .cornerRadius(8)
+            
+            VStack(alignment: .leading, spacing: 4) {
                 Text(book.title)
-                Text(book.author ?? "Anonymous")
-                    .font(.system(size:12))
+                    .font(.headline)
+                    .lineLimit(1)
+                
+                Text(book.author)
+                    .font(.subheadline)
                     .foregroundColor(.secondary)
+                    .lineLimit(1)
             }
         }
+        .padding(.vertical, 4) 
     }
 }
-
 //#Preview {
 //    BookListItem()
 //}

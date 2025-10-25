@@ -2,7 +2,7 @@
 //  Book.swift
 //  BookManager
 //
-//  Created by mbair on 10/18/25.
+//  Created by Emiliano on 10/18/25.
 //
 import Foundation
 struct Book:Identifiable {
@@ -11,8 +11,9 @@ struct Book:Identifiable {
     var author:String = ""
     var image:String = "book-cover-placeholder"
     var description:String = ""
-    var rating:Int = 0
+    var rating:Int = 1
     var review: String = ""
-    var isFavorite:Bool = false
     var readingStatus:ReadingStatus = .unknown
+    var isFavorite:Bool = false
+    var genre:Genre = .unknown
 }
