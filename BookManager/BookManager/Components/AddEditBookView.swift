@@ -10,6 +10,10 @@ import SwiftUI
 struct AddEditBookView: View {
     @Binding var book: Book
     
+    var onSave: () -> Void
+    
+    @Environment(\.dismiss) var dismiss
+    
     // A computed property for a clean navigation title (display only)
     private var navTitle: String {
         book.title.isEmpty ? "New Book" : "Edit Book"
@@ -63,6 +67,22 @@ struct AddEditBookView: View {
             }
             .navigationTitle(navTitle)
             .navigationBarTitleDisplayMode(.inline)
+            
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        onSave()
+                        dismiss()
+                    }
+                    .disabled(book.title.isEmpty)
+                }
+            }
         }
     }
 }

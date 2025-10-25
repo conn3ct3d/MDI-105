@@ -29,7 +29,9 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showAddSheet) {
-                AddEditBookView(book: $newBook)
+                AddEditBookView(book: $newBook, onSave:{
+                    books.append(newBook)
+                })
             }
         }
     }

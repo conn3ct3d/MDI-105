@@ -77,7 +77,9 @@ struct DetailView: View {
             }
         }
         .sheet(isPresented: $showEditSheet) {
-            AddEditBookView(book: $book)
+            AddEditBookView(book: $book, onSave:{
+                
+            })
         }
     }
 }
