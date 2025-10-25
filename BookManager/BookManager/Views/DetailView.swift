@@ -2,7 +2,7 @@
 //  DetailView.swift
 //  BookManager
 //
-//  Created by mbair on 10/18/25.
+//  Created by Emiliano on 10/18/25.
 //
 
 import SwiftUI
@@ -32,7 +32,7 @@ struct DetailView: View {
             }
             .padding(.horizontal)
         }
-        // MODIFIERS MOVED TO BE INSIDE 'body' (applied to ScrollView)
+        
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing: Button("Edit", action: {
@@ -41,7 +41,7 @@ struct DetailView: View {
         .sheet(isPresented: $showEditSheet, content: {
             AddEditBookView(book: $book)
         })
-    } // <-- 'body' properly closes here
+    } // <-- 'body' closes here
 } // <-- 'struct DetailView' closes here
 
 //#Preview {

@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         
         NavigationStack{
-            List($books, id:\.self.title) { $book in
+            List($books, id:\.self.id) { $book in
                 NavigationLink(destination:DetailView(book:$book)){
                     BookListItem(book:book)
                 }
