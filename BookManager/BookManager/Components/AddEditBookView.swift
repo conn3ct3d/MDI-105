@@ -13,10 +13,7 @@ struct AddEditBookView: View {
     
     var onSave: () -> Void
     
-    //
-    // MARK: - CORRECTED INIT
-    // We must accept 'onSave' here to initialize the property
-    //
+
     init(book: Binding<Book>, onSave: @escaping () -> Void) {
         self._book = book
         self._workingBook = State(initialValue: book.wrappedValue)
@@ -24,10 +21,9 @@ struct AddEditBookView: View {
     }
     
     @Environment(\.dismiss) var dismiss
-    
-    // A computed property for a clean navigation title (display only)
+
     private var navTitle: String {
-        // Use workingBook to show "New Book" while typing
+
         workingBook.title.isEmpty ? "New Book" : "Edit Book"
     }
     
@@ -90,7 +86,7 @@ struct AddEditBookView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         
-                        // 1. Apply changes from local state to the binding
+    
                         book.title = workingBook.title
                         book.author = workingBook.author
                         book.description = workingBook.description
@@ -99,10 +95,9 @@ struct AddEditBookView: View {
                         book.review = workingBook.review
                         book.readingStatus = workingBook.readingStatus
                         
-                        // 2. Run the onSave closure (which appends to the list)
+
                         onSave()
-                        
-                        // 3. Dismiss the sheet
+
                         dismiss()
                     }
                     .disabled(workingBook.title.isEmpty)
