@@ -82,12 +82,8 @@ struct FavoritesView: View {
         {
             ToolbarItem(placement:.topBarLeading)
             {
-                Button(action:
-                        {
-                    showFilterSheet.toggle()
-                }){
-                    Image(systemName:line.horizontal.3.decrease.circle)
-                }.accessibilityLabel("Open filter options")
+                FilterButton(action:{showFilterSheet.toggle()
+                })
             }
         }
         .sheet(isPresented: $showFilterSheet){

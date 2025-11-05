@@ -13,6 +13,7 @@ struct FiltersView: View {
     @State private var internalGenre: Genre? = nil
     @State private var internalReadingStatus: ReadingStatus? = nil
     
+    @Environment(\.dismiss) var dismiss
     init(selectedGenre: Binding<Genre?>, selectedReadingStatus: Binding<ReadingStatus?>)
     {
         self.selectedGenre = selectedGenre
@@ -62,7 +63,9 @@ struct FiltersView: View {
                 Button("Apply")
                 {
                     selectedGenre = internalGenre
-                    selectedReadingStatus = internalReadingStatus                }
+                    selectedReadingStatus = internalReadingStatus
+                    dismiss()
+                }
             }
             .disabled(internalGenre == selectedGenre && internalReadingStatus == selectedReadingStatus)
         }
