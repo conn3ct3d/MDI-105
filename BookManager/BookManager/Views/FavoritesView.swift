@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FavoritesView: View {
     @Binding var books:[Book]
-    @Binding var showFilterSheet:Bool = false
+    @State private var showFilterSheet: Bool = false
     @State var selectedGenre: Genre?
     @State var selectedReadingStatus: ReadingStatus?
     

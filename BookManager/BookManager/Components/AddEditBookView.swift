@@ -9,21 +9,26 @@ import SwiftUI
 
 struct AddEditBookView: View {
     @Binding var book: Book
-    @State private var workingBook:Book
+    @State private var workingBook: Book
     
     var onSave: () -> Void
     
-    init (book:Binding<Book>)
-    {
+    //
+    // MARK: - CORRECTED INIT
+    // We must accept 'onSave' here to initialize the property
+    //
+    init(book: Binding<Book>, onSave: @escaping () -> Void) {
         self._book = book
-        sekf._workingBook = .init(initialValue: book.wrappedValue)
+        self._workingBook = State(initialValue: book.wrappedValue)
+        self.onSave = onSave
     }
     
     @Environment(\.dismiss) var dismiss
     
     // A computed property for a clean navigation title (display only)
     private var navTitle: String {
-        book.title.isEmpty ? "New Book" : "Edit Book"
+        // Use workingBook to show "New Book" while typing
+        workingBook.title.isEmpty ? "New Book" : "Edit Book"
     }
     
     var body: some View {
@@ -84,8 +89,8 @@ struct AddEditBookView: View {
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        onSave()
-                        dismiss()
+                        
+                        // 1. Apply changes from local state to the binding
                         book.title = workingBook.title
                         book.author = workingBook.author
                         book.description = workingBook.description
@@ -93,15 +98,21 @@ struct AddEditBookView: View {
                         book.rating = workingBook.rating
                         book.review = workingBook.review
                         book.readingStatus = workingBook.readingStatus
+                        
+                        // 2. Run the onSave closure (which appends to the list)
+                        onSave()
+                        
+                        // 3. Dismiss the sheet
+                        dismiss()
                     }
                     .disabled(workingBook.title.isEmpty)
                 }
             }
-            }
         }
     }
+}
 
 //#Preview {
 //
-//    AddEditBookView(book: .constant(Book(title: "Sample Title", author: "Sample Author", description: "", review: "", rating: 3, genre: .fiction, readingStatus: .completed)))
+//    AddEditBookView(book: .constant(Book(title: "Sample Title", author: "Sample Author", description: "", review: "", rating: 3, genre: .nonFiction, readingStatus: .reading)), onSave: {})
 //}

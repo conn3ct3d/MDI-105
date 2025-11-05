@@ -18,7 +18,7 @@ struct BookListView: View {
         NavigationStack {
             List($books, id: \.self.id) { $book in
                 NavigationLink(destination: DetailView(book: $book)) {
-                    BookListItem(bookInList: book)
+                    BookListItem(book: book)
                 }
             }
             .navigationTitle("Book Manager")
