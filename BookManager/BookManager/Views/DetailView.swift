@@ -47,9 +47,11 @@ struct DetailView: View {
                 HStack {
                     CustomCapsule(book.genre.rawValue, color: .secondary.opacity(0.3))
                     CustomCapsule(book.readingStatus.rawValue)
+                    Spacer()
+                    FavoriteToggle(isFavorite: $book.isFavorite)
                 }
                 
-                if (book.review != "" || book.rating != 0) {
+                if (book.review != "" ||    book.rating != 0) {
                     Divider().padding(.vertical, 8)
                     
                     Text("Review")
@@ -67,7 +69,7 @@ struct DetailView: View {
                         .foregroundColor(book.review.isEmpty ? .secondary : .primary)
                 }
             }
-            .padding()
+            .padding(.horizontal)
         }
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
@@ -77,7 +79,7 @@ struct DetailView: View {
             }
         }
         .sheet(isPresented: $showEditSheet) {
-            AddEditBookView(book: $book, onSave:{
+            AddEditBookView(book: $book, onSave:    {
                 
             })
         }

@@ -9,30 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    
     @State var books: [Book] = getBooks()
-    @State var showAddSheet = false
-    @State var newBook: Book = Book(title: "")
+
     
     var body: some View {
-        
-        NavigationStack {
-            List($books, id: \.self.id) { $book in
-                NavigationLink(destination: DetailView(book: $book)) {
-                    BookListItem(book: book)
+        TabView{
+            BookListView(books: $books)
+                .tabItem{
+                    Label("Books", systemImage:"books.vertical.fill")
                 }
-            }
-            .navigationTitle("Book Manager")
-            .toolbar {
-                Button("Add") {
-                    newBook = Book(title: "")
-                    showAddSheet.toggle()
+            FavoritesView(books:$books)
+                .tabItem{
+                    Label("Favorites", systemImage:"star")
                 }
-            }
-            .sheet(isPresented: $showAddSheet) {
-                AddEditBookView(book: $newBook, onSave:{
-                    books.append(newBook)
-                })
-            }
         }
     }
 }
