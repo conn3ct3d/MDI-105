@@ -10,16 +10,30 @@ import SwiftData
 
 struct ContentView: View {
     
-    @State var books: [Book] = getBooks()
-
+    @AppStorage(SETTINGS_THEME_KEY) var theme: Theme = .light
+    
+    @State var books: bookViewModel: BookViewModel = BookViewModel()
+    
+    var colorScheme: ColorScheme?
+    {
+        switch(theme)
+        {
+        case .light:
+            return ColorScheme.light
+        case .dark:
+            return ColorScheme.dark
+        case .system:
+            return nil
+        }
+    }
     
     var body: some View {
         TabView{
-            BookListView(books: $books)
+            BookListView(books: $bookViewModel.books)
                 .tabItem{
                     Label("Books", systemImage:"books.vertical.fill")
                 }
-            FavoritesView(books:$books)
+            FavoritesView(books:$bookViewModel.books)
                 .tabItem{
                     Label("Favorites", systemImage:"star")
                 }
@@ -29,6 +43,7 @@ struct ContentView: View {
                 Label("Settings", systemImage:"gearshape.fill")
             }
         }
+        .preferredColorScheme(ColorScheme.dark)
     }
 }
 

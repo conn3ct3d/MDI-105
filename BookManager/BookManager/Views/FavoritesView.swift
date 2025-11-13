@@ -13,11 +13,12 @@ struct FavoritesView: View {
     @State var selectedGenre: Genre?
     @State var selectedReadingStatus: ReadingStatus?
     
-    let gridLayout = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        
-    ]
+    @AppStorage(FAVORITE_GRID_COLUMN_NUMBER_KEY) private var numberOfColumns: Theme = DEFAULT_FAV_GRID_COLUMNS_NUMBER
+    
+    private var gridLayour: [GridItem]
+    {
+        Array(repeating: GridItem(.flexible()), count: numberOfColumns)
+    }
     
     
     // Computed var

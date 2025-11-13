@@ -5,7 +5,7 @@
 //  Created by Emiliano on 10/18/25.
 //
 import Foundation
-struct Book:Identifiable {
+struct Book:Identifiable, Codable {
     let id = UUID()
     var title:String
     var author:String = ""
