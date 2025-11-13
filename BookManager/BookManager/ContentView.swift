@@ -10,9 +10,11 @@ import SwiftData
 
 struct ContentView: View {
     
-    @AppStorage(SETTINGS_THEME_KEY) var theme: Theme = .light
+    @AppStorage(SETTINGS_THEME_KEY) var theme: Theme = DEFAULT_SETTINGS_THEME
     
-    @State var books: bookViewModel: BookViewModel = BookViewModel()
+    @StateObject var bookViewModel: BookViewModel = BookViewModel()
+    
+    @State var books = getBooks()
     
     var colorScheme: ColorScheme?
     {

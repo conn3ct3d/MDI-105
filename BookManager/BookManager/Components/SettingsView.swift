@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     
     @AppStorage(SETTINGS_THEME_KEY) private var currentTheme: Theme = DEFAULT_SETTINGS_THEME
-    @AppStorage(FAVORITE_GRID_COLUMN_NUMBER_KEY) private var numberOfColumns: Theme = DEFAULT_FAV_GRID_COLUMNS_NUMBER
+    @AppStorage(FAVORITE_GRID_COLUMN_NUMBER_KEY) private var numberOfColumns: Int = DEFAULT_FAV_GRID_COLUMNS_NUMBER
     
     
 //    @State var currentTheme: Theme = .light

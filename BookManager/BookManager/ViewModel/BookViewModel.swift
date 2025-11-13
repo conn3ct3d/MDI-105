@@ -42,7 +42,7 @@ class BookViewModel: ObservableObject
     
     func saveBooks()
     {
-        if let enconded = try? JSONEncoder().encode(books)
+        if let encoded = try? JSONEncoder().encode(books)
         {
             UserDefaults.standard.set(encoded, forKey: booksKey)
         }
@@ -50,7 +50,7 @@ class BookViewModel: ObservableObject
     
     private func loadBooks()
     {
-        if let savedBooksData = UserDefaults.standard.object(forKey: booksKey),
+        if let savedBooksData = UserDefaults.standard.data(forKey: booksKey),
            let savedDecodedBooks = try? JSONDecoder().decode([Book].self, from: savedBooksData)
         {
             books = savedDecodedBooks
