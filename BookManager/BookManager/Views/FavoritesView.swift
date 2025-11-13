@@ -15,7 +15,7 @@ struct FavoritesView: View {
     
     @AppStorage(FAVORITE_GRID_COLUMN_NUMBER_KEY) private var numberOfColumns: Int = DEFAULT_FAV_GRID_COLUMNS_NUMBER
     
-    private var gridLayour: [GridItem]
+    private var gridLayout: [GridItem]
     {
         Array(repeating: GridItem(.flexible()), count: numberOfColumns)
     }

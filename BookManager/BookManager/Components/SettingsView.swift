@@ -31,7 +31,7 @@ struct SettingsView: View {
                 } // Section end
                 Section(header: Text("Display Settings"))
                 {
-                    Stepper("Fav section columns: \(numberOfColumns)", value: $numberOfColumns, in 1...4)
+                    Stepper("Fav section columns: \(numberOfColumns)", value: $numberOfColumns, in: 1...4)
                 }// end second section
             } // form end
         } // nav view end
