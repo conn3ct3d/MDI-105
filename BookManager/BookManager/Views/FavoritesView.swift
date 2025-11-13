@@ -13,7 +13,7 @@ struct FavoritesView: View {
     @State var selectedGenre: Genre?
     @State var selectedReadingStatus: ReadingStatus?
     
-    @AppStorage(FAVORITE_GRID_COLUMN_NUMBER_KEY) private var numberOfColumns: Theme = DEFAULT_FAV_GRID_COLUMNS_NUMBER
+    @AppStorage(FAVORITE_GRID_COLUMN_NUMBER_KEY) private var numberOfColumns: Int = DEFAULT_FAV_GRID_COLUMNS_NUMBER
     
     private var gridLayour: [GridItem]
     {
