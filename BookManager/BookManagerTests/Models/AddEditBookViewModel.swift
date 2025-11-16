@@ -21,7 +21,7 @@ struct AddEditViewModelTest
             let modelContext = container.mainContext
             
             // phase 2: Act
-            let viewModel = AddEditViewModel(modelContext: modelContext)
+            let viewModel = AddEditBookViewModel(modelContext: modelContext)
             
             // phase 3: Assert
             #expect(viewModel.title == "")
@@ -38,10 +38,10 @@ struct AddEditViewModelTest
                 for: PersistentBook.self,
                 configurations: .init(isStoredInMemoryOnly: true))
             let modelContext = container.mainContext
-            let book = PersistentBook(title: "Test Book", author: "Test Author", genre: .fantasy)
+            let book = PersistentBook(bookTitle: "Test Book", author: "Test Author", genre: .fantasy)
             
             // phase 2: Act
-            let viewModel = AddEditViewModel(book: book, modelContext: modelContext)
+            let viewModel = AddEditBookViewModel(book: book, modelContext: modelContext)
             
             // phase 3: Assert
             #expect(viewModel.title == "Test Book")

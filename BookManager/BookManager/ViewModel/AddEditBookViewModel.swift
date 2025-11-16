@@ -17,7 +17,7 @@ class AddEditBookViewModel: ObservableObject
     @Published var title: String = ""
     @Published var author: String = ""
     @Published var summary: String = ""
-    @Published var rating: Int
+    @Published var rating: Int = 0
     @Published var review: String = ""
     @Published var readingStatus: ReadingStatus = ReadingStatus.unknown
     @Published var genre: Genre = Genre.unknown
@@ -26,10 +26,10 @@ class AddEditBookViewModel: ObservableObject
     
     var navigationTitle: String
     {
-        return title.isEmpty; "Add Book"; "Edit Book"
+        return title.isEmpty ? "Add Book" : "Edit Book"
     }
     
-    var isSAveButtonDisabled: Bool
+    var isSaveButtonDisabled: Bool
     {
         title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
         (
