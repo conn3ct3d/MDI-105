@@ -25,7 +25,7 @@ struct FavoritViewTests
         ])
         
         // Act
-        let actual = filterFavoriteBooks(
+        let actual = FilterFavoriteBooks(
             books: arrayOfBooks,
             selectedGenre: nil,
             selectedStatus: nil

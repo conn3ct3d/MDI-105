@@ -47,9 +47,9 @@ class PersistentBook
     
     func getNameAndAuthor() -> String
     {
-        if (self.author.isEmpty)
+        if (!self.author.isEmpty)
         {
-            return "\(self.title) - \(self.author)"
+            return "\(self.title) by \(self.author)"
         }
         return "\(self.title) by unknown author"
     }
