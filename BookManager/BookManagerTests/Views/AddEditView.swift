@@ -35,4 +35,23 @@ struct FavoritViewTests
         #expect(actual.count == 1)
         #expect(actual[0].wrappedValue.title == "Book1")
     }
+    
+    @Test("Assignment 2: Filter function with different values")
+    func testFilterFunctionWorksCorrectly()
+    {
+        // Arrange
+        let books = Binding.constant(
+        [
+            Book(title:"Book1", isFavorite:true),
+            Book(title:"Book2"),
+            Book(title:"Book3"),
+        ]
+        )
+        // Act
+        let favoriteBooks = FilterFavoriteBooks(books: books, selectedGenre: nil, selectedStatus: nil)
+        
+        // Assert
+        #expect(favoriteBooks.count == 1)
+        #expect(favoriteBooks[0].wrappedValue.title == "Book1")
+    }
 }
