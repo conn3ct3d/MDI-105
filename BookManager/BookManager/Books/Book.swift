@@ -6,7 +6,7 @@
 //
 import Foundation
 struct Book:Identifiable, Codable {
-    let id = UUID()
+    var id = UUID()
     var title:String
     var author:String = ""
     var image:String = "book-cover-placeholder"

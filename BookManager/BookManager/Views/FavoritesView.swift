@@ -99,3 +99,20 @@ struct FavoritesView: View {
 }
 
 //
+
+func FilterFavoriteBooks(
+    books: Binding<[Book]>,
+    selectedGenre: Genre?,
+    selectedStatus: ReadingStatus?,
+    isNegative: Bool? = false
+) -> [Binding<Book>] {
+    books.filter{
+        $0.wrappedValue.isFavorite
+        && (
+            selectedGenre == nil || $0.wrappedValue.genre == selectedGenre
+        )
+        && (
+            selectedStatus == nil || $0.wrappedValue.readingStatus == selectedStatus
+        )
+    }
+}
