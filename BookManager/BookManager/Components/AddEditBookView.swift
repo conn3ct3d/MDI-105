@@ -4,20 +4,20 @@
 //
 //  Created by Emiliano on 10/20/25.
 //
-
+import Foundation
 import SwiftUI
 
 struct AddEditBookView: View {
-    @Binding var book: Book
-    @State private var workingBook: Book
+    
+    @StateObject private var viewModel: AddEditBookViewModel
+    var book: PersistentBook
+    /*State private var workingBook: Book*/
     
     var onSave: () -> Void
     
-
-    init(book: Binding<Book>, onSave: @escaping () -> Void) {
-        self._book = book
-        self._workingBook = State(initialValue: book.wrappedValue)
-        self.onSave = onSave
+    
+    init(book: PersistentBook? = nil, modelContext: ModelContext) {
+        _viewModel = StateObject(wrappedValue: AddEditBookViewModel(book:book, modelContext:modelContext))
     }
     
     @Environment(\.dismiss) var dismiss
@@ -45,11 +45,11 @@ struct AddEditBookView: View {
                 // Form content
                 Form {
                     Section(header: Text("Book Details")) {
-                        TextField("Title of the book", text: $workingBook.title)
-                        TextField("Author", text: $workingBook.author)
-                        TextEditor(text: $workingBook.description)
+                        TextField("Title of the book", text: $viewModel.title)
+                        TextField("Author", text: $viewModel.author)
+                        TextEditor(text: $viewModel.description)
                             .frame(height: 100)
-                        Picker("Genre", selection: $workingBook.genre) {
+                        Picker("Genre", selection: $viewModel.genre) {
                             ForEach(Genre.allCases, id: \.self) { genre in
                                 Text(genre.rawValue).tag(genre)
                             }
@@ -57,14 +57,14 @@ struct AddEditBookView: View {
                     }
                     
                     Section(header: Text("Review")) {
-                        TextEditor(text: $workingBook.review)
+                        TextEditor(text: $viewModel.review)
                             .frame(height: 100)
-                        Picker("Reading status", selection: $workingBook.readingStatus) {
+                        Picker("Reading status", selection: $viewModel.readingStatus) {
                             ForEach(ReadingStatus.allCases, id: \.self) { status in
                                 Text(status.rawValue).tag(status)
                             }
                         }
-                        Picker("Rating", selection: $workingBook.rating) {
+                        Picker("Rating", selection: $viewModel.rating) {
                             ForEach(1...5, id: \.self) { i in
                                 Text("\(i) star\(i == 1 ? "" : "s")").tag(i)
                             }
@@ -97,10 +97,10 @@ struct AddEditBookView: View {
                         
 
                         onSave()
-
+                        viewModel.save()
                         dismiss()
                     }
-                    .disabled(workingBook.title.isEmpty)
+                    .disabled(viewModel.title.isEmpty)
                 }
             }
         }

@@ -14,7 +14,8 @@ struct ContentView: View {
     
     @StateObject var bookViewModel: BookViewModel = BookViewModel()
     
-    @State var books = getBooks()
+//    @State var books = getBooks()
+    
     
     var colorScheme: ColorScheme?
     {
@@ -31,11 +32,11 @@ struct ContentView: View {
     
     var body: some View {
         TabView{
-            BookListView(books: $bookViewModel.books)
+            BookListView()
                 .tabItem{
                     Label("Books", systemImage:"books.vertical.fill")
                 }
-            FavoritesView(books:$bookViewModel.books)
+            FavoritesView()
                 .tabItem{
                     Label("Favorites", systemImage:"star")
                 }

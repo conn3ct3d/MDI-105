@@ -6,19 +6,42 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookListView: View {
     
-    @Binding var books: [Book]
+//    @Binding var books: [Book]
+    
+    @Query var book: [PersistentBook]
     @State var showAddSheet = false
-    @State var newBook: Book = Book(title: "")
+    
+    @State var showFilterSheet: Bool = false
+    @State var selectedGenre: Genre?
+    @State var selectedReadingStatus: ReadingStatus?
+    
+    // Computed variable
+    private var filteredBooks: [PersistentBook]
+    {
+        books.filter
+        {
+            (selectedGenre == nil || $0.genre == selectedGenre)
+            &&
+            (selectedReadingStatus == nil || $0.readingStatus == selectedReadingStatus)
+        }
+    }
     
     var body: some View {
-        
         NavigationStack {
-            List($books, id: \.self.id) { $book in
+            VStack{
+                if filteredBooks.isEmpty{
+                    Text("No books found.")
+                        .font(.headline)
+                }
+            
+            List(filteredBooks, id: \.self.id) { $book in
                 NavigationLink(destination: DetailView(book: $book)) {
                     BookListItem(book: book)
+                    }
                 }
             }
             .navigationTitle("Book Manager")
@@ -29,7 +52,7 @@ struct BookListView: View {
                 }
             }
             .sheet(isPresented: $showAddSheet) {
-                AddEditBookView(book: $newBook, onSave:{
+                AddEditBookView(modelContext: modelContext, onSave:{
                     books.append(newBook)
                 })
             }
