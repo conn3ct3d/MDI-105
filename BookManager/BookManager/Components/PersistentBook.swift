@@ -51,6 +51,6 @@ class PersistentBook
         {
             return "\(self.title) by \(self.author)"
         }
-        return "\(self.title) by unknown author"
+        return "\(self.title) by Unknown Author"
     }
 }

@@ -20,7 +20,7 @@ struct FavoritViewTests
         // Arrange
         let arrayOfBooks = Binding.constant([
             Book(title:"Book1", isFavorite:true),
-            Book(title:"Book2", isFavorite:true),
+            Book(title:"Book2", isFavorite:false),
             Book(title:"Book3", isFavorite:false),
         ])
         
