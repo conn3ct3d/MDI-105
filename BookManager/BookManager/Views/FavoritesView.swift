@@ -6,14 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoritesView: View {
-    @Binding var books:[Book]
+//    @Binding var books:[Book]
     @State private var showFilterSheet: Bool = false
     @State var selectedGenre: Genre?
     @State var selectedReadingStatus: ReadingStatus?
     
     @AppStorage(FAVORITE_GRID_COLUMN_NUMBER_KEY) private var numberOfColumns: Int = DEFAULT_FAV_GRID_COLUMNS_NUMBER
+    
+    @Query(filter: #Predicate<PersistentBook> { $0.isFavorite })
+    private var favoriteBooksQuery: [PersistentBook]
     
     private var gridLayout: [GridItem]
     {
@@ -22,19 +26,14 @@ struct FavoritesView: View {
     
     
     // Computed var
-    private var favoriteBooks:[Binding<Book>]{
-        $books.filter
-        {
-            $0.wrappedValue.isFavorite
-            &&  (
-                selectedGenre == nil || $0.wrappedValue.genre == selectedGenre!
-            )
-            && (
-                selectedReadingStatus == nil || $0.wrappedValue.readingStatus == selectedReadingStatus!
-            )
+    private var filteredFavoriteBooks: [PersistentBook] {
+        favoriteBooksQuery.filter { book in
+            (selectedGenre == nil || book.genre == selectedGenre)
+            &&
+            (selectedReadingStatus == nil || book.readingStatus == selectedReadingStatus)
         }
-        
     }
+    
     var body: some View {
         NavigationStack{
             if (selectedGenre != nil && selectedReadingStatus != nil){
@@ -55,7 +54,7 @@ struct FavoritesView: View {
                 
                 .padding()
             }
-            if (favoriteBooks.isEmpty)
+            if (filteredFavoriteBooks.isEmpty)
             {
                 Spacer()
                 VStack
@@ -70,13 +69,15 @@ struct FavoritesView: View {
                 }
             }
             else{
-                LazyVGrid(columns: gridLayout){
-                    ForEach(favoriteBooks, id:\.id) { book in
-                        NavigationLink(destination: DetailView(book: book)) {
-                            BookCard(book: book)
+                ScrollView {
+                    LazyVGrid(columns: gridLayout){
+                        ForEach(filteredFavoriteBooks, id:\.id) { book in
+                            NavigationLink(destination: DetailView(book: book)) {
+                                BookCard(book: book)
+                            }
                         }
-                    }
-                }.padding(.horizontal)
+                    }.padding(.horizontal)
+                }
             }
         }.navigationTitle("My Favorite Books")
             .toolbar
@@ -95,24 +96,5 @@ struct FavoritesView: View {
                 selectedReadingStatus: $selectedReadingStatus
             )
         }
-    }
-}
-
-//
-
-func FilterFavoriteBooks(
-    books: Binding<[Book]>,
-    selectedGenre: Genre?,
-    selectedStatus: ReadingStatus?,
-    isNegative: Bool? = false
-) -> [Binding<Book>] {
-    books.filter{
-        $0.wrappedValue.isFavorite
-        && (
-            selectedGenre == nil || $0.wrappedValue.genre == selectedGenre
-        )
-        && (
-            selectedStatus == nil || $0.wrappedValue.readingStatus == selectedStatus
-        )
     }
 }

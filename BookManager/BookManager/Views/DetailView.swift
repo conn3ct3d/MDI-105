@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData // Import SwiftData to recognize modelContext
 
 struct DetailView: View {
     
@@ -23,7 +24,7 @@ struct DetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                                 HStack(spacing: 15) {
-                                    Image(uiImage: (book.imageData != nil ? UIImage(data: book.imageData) : UIImage(resource: .defaultBook))!)
+                                    Image(uiImage: (book.imageData != nil ? UIImage(data: book.imageData!) : UIImage(named: "book-cover-placeholder"))!)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100, height: 150)
@@ -49,14 +50,15 @@ struct DetailView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                 
-                Text(book.description.isEmpty ? "No description provided." : book.description)
+                
+                Text(book.summary.isEmpty ? "No description provided." : book.summary)
                     .font(.body)
                 
                 HStack {
                     CustomCapsule(book.genre.rawValue, color: .secondary.opacity(0.3))
                     CustomCapsule(book.readingStatus.rawValue)
                     Spacer()
-                    FavoriteToggle(isFavorite: $book.isFavorite)
+                    FavoriteToggle(isFavorite: $isFavorite)
                         .onChange(of:isFavorite){
                             book.isFavorite = isFavorite
                             try? modelContext.save()
@@ -91,10 +93,9 @@ struct DetailView: View {
             }
         }
         .sheet(isPresented: $showEditSheet) {
-            AddEditBookView(book: book, onSave:    {
+            AddEditBookView(book: book, modelContext: modelContext, onSave:    {
                 
             })
         }
     }
 }
-

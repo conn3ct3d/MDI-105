@@ -10,9 +10,11 @@ import SwiftData
 
 struct BookListView: View {
     
+    @Environment(\.modelContext) private var modelContext
+    
 //    @Binding var books: [Book]
     
-    @Query var book: [PersistentBook]
+    @Query var books: [PersistentBook]
     @State var showAddSheet = false
     
     @State var showFilterSheet: Bool = false
@@ -38,8 +40,8 @@ struct BookListView: View {
                         .font(.headline)
                 }
             
-            List(filteredBooks, id: \.self.id) { $book in
-                NavigationLink(destination: DetailView(book: $book)) {
+            List(filteredBooks) { book in
+                NavigationLink(destination: DetailView(book: book)) {
                     BookListItem(book: book)
                     }
                 }
@@ -47,13 +49,12 @@ struct BookListView: View {
             .navigationTitle("Book Manager")
             .toolbar {
                 Button("Add") {
-                    newBook = Book(title: "")
                     showAddSheet.toggle()
                 }
             }
             .sheet(isPresented: $showAddSheet) {
                 AddEditBookView(modelContext: modelContext, onSave:{
-                    books.append(newBook)
+                    
                 })
             }
         }

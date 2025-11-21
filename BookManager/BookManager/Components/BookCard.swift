@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct BookCard: View {
-    @Binding var book:Book
+    var book: PersistentBook
+    
     var body: some View {
         VStack{
             Text(book.title)
@@ -38,7 +39,7 @@ struct BookCard: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
-            Image(uiImage: (book.imageData != nil ? UIImage(data: book.imageData) : UIImage(resource: .defaultBook))!)
+            Image(uiImage: (book.imageData != nil ? UIImage(data: book.imageData!) : UIImage(named: "book-cover-placeholder"))!)
                 .resizable()
                 .scaledToFill().opacity(0.9)
         )

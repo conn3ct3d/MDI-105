@@ -12,7 +12,7 @@ struct BookListItem: View {
     
     var body: some View {
         HStack(spacing: 15) {
-            Image(uiImage: (book.imageData != nil ? UIImage(data: book.imageData) : UIImage(resource: .defaultBook))!)
+            Image(uiImage: (book.imageData != nil ? UIImage(data: book.imageData!) : UIImage(named: "book-cover-placeholder"))!)
                 .resizable()
                 .scaledToFill()
                 .frame(width: 50, height: 70)
@@ -29,7 +29,7 @@ struct BookListItem: View {
                     .lineLimit(1)
             }
         }
-        .padding(.vertical, 4) 
+        .padding(.vertical, 4)
     }
 }
 //#Preview {

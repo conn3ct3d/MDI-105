@@ -6,25 +6,25 @@
 //
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct AddEditBookView: View {
     
     @StateObject private var viewModel: AddEditBookViewModel
-    var book: PersistentBook
     /*State private var workingBook: Book*/
     
     var onSave: () -> Void
     
     
-    init(book: PersistentBook? = nil, modelContext: ModelContext) {
+    init(book: PersistentBook? = nil, modelContext: ModelContext, onSave: @escaping () -> Void) {
         _viewModel = StateObject(wrappedValue: AddEditBookViewModel(book:book, modelContext:modelContext))
+        self.onSave = onSave
     }
     
     @Environment(\.dismiss) var dismiss
 
     private var navTitle: String {
-
-        workingBook.title.isEmpty ? "New Book" : "Edit Book"
+        viewModel.navigationTitle
     }
     
     var body: some View {
@@ -47,7 +47,7 @@ struct AddEditBookView: View {
                     Section(header: Text("Book Details")) {
                         TextField("Title of the book", text: $viewModel.title)
                         TextField("Author", text: $viewModel.author)
-                        TextEditor(text: $viewModel.description)
+                        TextEditor(text: $viewModel.summary)
                             .frame(height: 100)
                         Picker("Genre", selection: $viewModel.genre) {
                             ForEach(Genre.allCases, id: \.self) { genre in
@@ -86,28 +86,13 @@ struct AddEditBookView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         
-    
-                        book.title = workingBook.title
-                        book.author = workingBook.author
-                        book.description = workingBook.description
-                        book.genre = workingBook.genre
-                        book.rating = workingBook.rating
-                        book.review = workingBook.review
-                        book.readingStatus = workingBook.readingStatus
-                        
-
                         onSave()
-                        viewModel.save()
+                        viewModel.Save()
                         dismiss()
                     }
-                    .disabled(viewModel.title.isEmpty)
+                    .disabled(viewModel.isSaveButtonDisabled)
                 }
             }
         }
     }
 }
-
-//#Preview {
-//
-//    AddEditBookView(book: .constant(Book(title: "Sample Title", author: "Sample Author", description: "", review: "", rating: 3, genre: .nonFiction, readingStatus: .reading)), onSave: {})
-//}
